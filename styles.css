@@ -1,0 +1,86 @@
+body {
+  width: 200px; /* Reducido de 250px */
+  padding: 8px;
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h2 {
+  font-size: 12px; /* Reducido de 14px */
+  margin-bottom: 8px; /* Reducido de 10px */
+  color: #666; /* Gris en lugar de negro */
+  font-weight: normal;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 30px); /* Reducido de 40px */
+  grid-template-rows: repeat(5, 30px); /* Reducido de 40px */
+  gap: 1px; /* Reducido de 2px */
+}
+
+.grid-btn {
+  width: 30px; /* Reducido de 40px */
+  height: 30px; /* Reducido de 40px */
+  font-size: 14px; /* Reducido de 16px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  border: 1px solid #d0d0d0; /* Gris más claro */
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #555; /* Texto en gris en lugar de negro */
+}
+
+.grid-btn:hover {
+  background-color: #e8e8e8; /* Gris más claro */
+}
+
+.grid-btn:active {
+  background-color: #e0e0e0; /* Gris más claro */
+  transform: scale(0.95);
+}
+
+/* Estilos para los bordes que simulan el marco - en grises */
+.border-top {
+  border-top: 2px solid #888; /* Gris en lugar de negro */
+}
+
+.border-bottom {
+  border-bottom: 2px solid #888; /* Gris en lugar de negro */
+}
+
+.border-left {
+  border-left: 2px solid #888; /* Gris en lugar de negro */
+}
+
+.border-right {
+  border-right: 2px solid #888; /* Gris en lugar de negro */
+}
+
+.border-top-left {
+  border-top: 2px solid #888; /* Gris en lugar de negro */
+  border-left: 2px solid #888; /* Gris en lugar de negro */
+}
+
+.border-top-right {
+  border-top: 2px solid #888; /* Gris en lugar de negro */
+  border-right: 2px solid #888; /* Gris en lugar de negro */
+}
+
+.border-bottom-left {
+  border-bottom: 2px solid #888; /* Gris en lugar de negro */
+  border-left: 2px solid #888; /* Gris en lugar de negro */
+}
+
+.border-bottom-right {
+  border-bottom: 2px solid #888; /* Gris en lugar de negro */
+  border-right: 2px solid #888; /* Gris en lugar de negro */
+}
