@@ -1,86 +1,98 @@
 body {
-  width: 200px; /* Reducido de 250px */
-  padding: 8px;
+  margin: 0;
+  padding: 0;
+  width: 142px;
+  height: 162px; /* Aumentado para incluir el mensaje de estado */
   font-family: Arial, sans-serif;
-  background-color: #f8f8f8;
+  background-color: #f0f0f0;
+  position: relative;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-h2 {
-  font-size: 12px; /* Reducido de 14px */
-  margin-bottom: 8px; /* Reducido de 10px */
-  color: #666; /* Gris en lugar de negro */
-  font-weight: normal;
+.status-message {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 10px;
+  color: #666;
+  height: 16px;
+  padding: 1px 0;
+  background-color: rgba(240, 240, 240, 0.9);
+  z-index: 10;
+  display: none;
 }
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(5, 30px); /* Reducido de 40px */
-  grid-template-rows: repeat(5, 30px); /* Reducido de 40px */
-  gap: 1px; /* Reducido de 2px */
+  grid-template-columns: repeat(5, 28px);
+  grid-template-rows: repeat(5, 28px);
+  gap: 0;
+  position: absolute;
+  top: 20px;
+  left: 0;
 }
 
 .grid-btn {
-  width: 30px; /* Reducido de 40px */
-  height: 30px; /* Reducido de 40px */
-  font-size: 14px; /* Reducido de 16px */
+  width: 28px;
+  height: 28px;
+  font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f0f0f0;
-  border: 1px solid #d0d0d0; /* Gris más claro */
+  background-color: #f8f8f8;
+  border: 1px solid #e0e0e0;
   cursor: pointer;
   transition: all 0.2s;
-  color: #555; /* Texto en gris en lugar de negro */
+  color: #777;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  outline: none;
 }
 
 .grid-btn:hover {
-  background-color: #e8e8e8; /* Gris más claro */
+  background-color: #e8e8e8;
 }
 
 .grid-btn:active {
-  background-color: #e0e0e0; /* Gris más claro */
+  background-color: #d8d8d8;
   transform: scale(0.95);
 }
 
-/* Estilos para los bordes que simulan el marco - en grises */
+/* Estilos para los bordes que simulan el marco */
 .border-top {
-  border-top: 2px solid #888; /* Gris en lugar de negro */
+  border-top: 1px solid #a0a0a0;
 }
 
 .border-bottom {
-  border-bottom: 2px solid #888; /* Gris en lugar de negro */
+  border-bottom: 1px solid #a0a0a0;
 }
 
 .border-left {
-  border-left: 2px solid #888; /* Gris en lugar de negro */
+  border-left: 1px solid #a0a0a0;
 }
 
 .border-right {
-  border-right: 2px solid #888; /* Gris en lugar de negro */
+  border-right: 1px solid #a0a0a0;
 }
 
 .border-top-left {
-  border-top: 2px solid #888; /* Gris en lugar de negro */
-  border-left: 2px solid #888; /* Gris en lugar de negro */
+  border-top: 1px solid #a0a0a0;
+  border-left: 1px solid #a0a0a0;
 }
 
 .border-top-right {
-  border-top: 2px solid #888; /* Gris en lugar de negro */
-  border-right: 2px solid #888; /* Gris en lugar de negro */
+  border-top: 1px solid #a0a0a0;
+  border-right: 1px solid #a0a0a0;
 }
 
 .border-bottom-left {
-  border-bottom: 2px solid #888; /* Gris en lugar de negro */
-  border-left: 2px solid #888; /* Gris en lugar de negro */
+  border-bottom: 1px solid #a0a0a0;
+  border-left: 1px solid #a0a0a0;
 }
 
 .border-bottom-right {
-  border-bottom: 2px solid #888; /* Gris en lugar de negro */
-  border-right: 2px solid #888; /* Gris en lugar de negro */
+  border-bottom: 1px solid #a0a0a0;
+  border-right: 1px solid #a0a0a0;
 }
