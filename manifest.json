@@ -14,8 +14,14 @@
   },
   "permissions": [
     "activeTab",
-    "scripting"
+    "scripting",
+    "contextMenus",
+    "storage"
   ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
   "icons": {
     "16": "img/icon.png",
     "48": "img/icon.png",

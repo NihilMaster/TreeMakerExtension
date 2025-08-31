@@ -4,23 +4,22 @@ body {
   width: 142px;
   height: 142px;
   font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
+  background-color: #f8f8f8;
   position: relative;
+  transition: background-color 0.3s;
 }
 
-.status-message {
-  position: absolute;
-  top: 2px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 10px;
-  color: #666;
-  height: 16px;
-  padding: 1px 0;
-  background-color: rgba(240, 240, 240, 0.9);
-  z-index: 10;
-  display: none;
+/* Estilos según el modo activo */
+body[data-mode="black-list"] {
+  background-color: #f8f8f8;
+}
+
+body[data-mode="white-list"] {
+  background-color: #f0f0ff;
+}
+
+body[data-mode="custom"] {
+  background-color: #fff8f0;
 }
 
 .grid-container {
@@ -28,9 +27,6 @@ body {
   grid-template-columns: repeat(5, 28px);
   grid-template-rows: repeat(5, 28px);
   gap: 0;
-  position: absolute;
-  top: 20px;
-  left: 0;
 }
 
 .grid-btn {
@@ -49,10 +45,12 @@ body {
   padding: 0;
   border-radius: 0;
   outline: none;
+  position: relative;
 }
 
 .grid-btn:hover {
   background-color: #e8e8e8;
+  z-index: 2;
 }
 
 .grid-btn:active, .grid-btn:focus {
@@ -60,6 +58,11 @@ body {
   transform: scale(0.95);
   z-index: 2;
   box-shadow: 0 0 0 2px #a0a0a0;
+}
+
+.grid-btn.copied {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
 }
 
 /* Estilos para los bordes que simulan el marco */
