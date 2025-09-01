@@ -1,7 +1,7 @@
 // Estado por defecto
 const defaultSettings = {
-  mode: "copiar", // "copiar", "insertar", "ambos"
-  enabled: true
+  mode: "insertar", // "copiar", "insertar", "ambos"
+  useEmojis: true // true: emojis, false: símbolos
 };
 
 // Inicializar configuración
@@ -18,33 +18,42 @@ function updateContextMenu(settings) {
   // Eliminar menú existente
   chrome.contextMenus.removeAll();
 
-  // Crear menú principal
+  // Crear menú principal para modo de operación
   chrome.contextMenus.create({
     id: "mode-header",
     title: "Modo de operación",
     contexts: ["action"],
-    enabled: false
+    enabled: true
   });
 
-  // Opción: Solo copiar
+  // Opción: Solo copiar (radio button)
   chrome.contextMenus.create({
     id: "copiar",
-    title: settings.mode === "copiar" ? "✓ Solo copiar" : "Solo copiar",
-    contexts: ["action"]
+    parentId: "mode-header",
+    title: "Solo copiar",
+    contexts: ["action"],
+    type: "radio",
+    checked: settings.mode === "copiar"
   });
 
-  // Opción: Solo insertar
+  // Opción: Solo insertar (radio button)
   chrome.contextMenus.create({
     id: "insertar",
-    title: settings.mode === "insertar" ? "✓ Solo insertar" : "Solo insertar",
-    contexts: ["action"]
+    parentId: "mode-header",
+    title: "Solo insertar",
+    contexts: ["action"],
+    type: "radio",
+    checked: settings.mode === "insertar"
   });
 
-  // Opción: Copiar e insertar
+  // Opción: Copiar e insertar (radio button)
   chrome.contextMenus.create({
     id: "ambos",
-    title: settings.mode === "ambos" ? "✓ Copiar e insertar" : "Copiar e insertar",
-    contexts: ["action"]
+    parentId: "mode-header",
+    title: "Copiar e insertar",
+    contexts: ["action"],
+    type: "radio",
+    checked: settings.mode === "ambos"
   });
 
   // Separador
@@ -54,11 +63,32 @@ function updateContextMenu(settings) {
     contexts: ["action"]
   });
 
-  // Opción: Emojis/Símbolos
+  // Crear menú principal para tipo de iconos
   chrome.contextMenus.create({
-    id: "emojis",
-    title: "Emojis/Símbolos",
-    contexts: ["action"]
+    id: "icons-header",
+    title: "Tipo de iconos",
+    contexts: ["action"],
+    enabled: true
+  });
+
+  // Opción: Usar emojis (radio button)
+  chrome.contextMenus.create({
+    id: "use-emojis",
+    parentId: "icons-header",
+    title: "Usar emojis",
+    contexts: ["action"],
+    type: "radio",
+    checked: settings.useEmojis
+  });
+
+  // Opción: Usar símbolos (radio button)
+  chrome.contextMenus.create({
+    id: "use-symbols",
+    parentId: "icons-header",
+    title: "Usar símbolos",
+    contexts: ["action"],
+    type: "radio",
+    checked: !settings.useEmojis
   });
 }
 
@@ -75,15 +105,19 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     const settings = data.settings || defaultSettings;
     
     switch (info.menuItemId) {
-        case "copiar":
-        case "insertar":
-        case "ambos":
-            settings.mode = info.menuItemId;
-            break;
-
-        case "emojis":
-            // Manejar la selección de emojis/símbolos
-            break;
+      case "copiar":
+      case "insertar":
+      case "ambos":
+        settings.mode = info.menuItemId;
+        break;
+      
+      case "use-emojis":
+        settings.useEmojis = true;
+        break;
+        
+      case "use-symbols":
+        settings.useEmojis = false;
+        break;
     }
     
     // Guardar nueva configuración

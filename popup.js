@@ -2,14 +2,23 @@ document.addEventListener('DOMContentLoaded', function() {
   const buttons = document.querySelectorAll('.grid-btn');
   let currentSettings = {
     mode: "copiar",
-    enabled: true
+    useEmojis: true
+  };
+
+  // Mapeo de emojis a símbolos y viceversa
+  const iconMappings = {
+    // Fila 3 (iconos especiales)
+    "📂": { emoji: "📂", symbol: "🗁" }, // folder
+    "📄": { emoji: "📄", symbol: "🗎" }, // file
+    
+    // Puedes agregar más mapeos aquí si necesitas
   };
 
   // Cargar configuración
   chrome.storage.local.get('settings', (data) => {
     if (data.settings) {
       currentSettings = data.settings;
-      updateUI();
+      updateIcons();
     }
   });
 
@@ -17,21 +26,31 @@ document.addEventListener('DOMContentLoaded', function() {
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.type === "settingsChanged") {
       currentSettings = request.settings;
-      updateUI();
+      updateIcons();
     }
   });
 
-  function updateUI() {
-    // Aquí puedes actualizar la UI según la configuración actual
-    // Por ejemplo, cambiar el color o estilo para indicar el modo
-    const statusIndicator = document.getElementById('status-indicator');
-    if (statusIndicator) {
-      statusIndicator.textContent = 
-        currentSettings.mode === "copiar" ? "Modo: Copiar" :
-        currentSettings.mode === "insertar" ? "Modo: Insertar" : "Modo: Ambos";
+  // Función para actualizar iconos según la configuración
+  function updateIcons() {
+    buttons.forEach(button => {
+      const originalContent = button.getAttribute('data-original-content');
       
-      statusIndicator.style.color = currentSettings.enabled ? "green" : "gray";
-    }
+      // Verificar si este botón tiene un mapeo definido
+      if (iconMappings[originalContent]) {
+        const newContent = currentSettings.useEmojis ? 
+          iconMappings[originalContent].emoji : 
+          iconMappings[originalContent].symbol;
+        
+        button.textContent = newContent;
+        
+        // Actualizar también el atributo alt con el símbolo correcto
+        const correctSymbol = currentSettings.useEmojis ? 
+          iconMappings[originalContent].emoji : 
+          iconMappings[originalContent].symbol;
+        
+        button.setAttribute('alt', correctSymbol);
+      }
+    });
   }
 
   // Función para copiar al portapapeles
@@ -53,8 +72,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Función para insertar texto
   function insertTextWithScripting(text) {
-    if (!currentSettings.enabled) return false;
-    
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       if (tabs[0]) {
         chrome.scripting.executeScript({
@@ -140,11 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Agregar event listeners a todos los botones
   buttons.forEach(button => {
     button.addEventListener('click', function() {
-      if (!currentSettings.enabled) {
-        alert("La extensión está pausada. Reanúdala desde el menú contextual.");
-        return;
-      }
-      
       // Obtener el texto del atributo alt (que contiene la representación correcta)
       const symbol = this.getAttribute('alt') || this.textContent;
       
@@ -164,22 +176,29 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
-  // Guardar titles originales
+  // Guardar titles originales y configurar datos para mapeo
   buttons.forEach(button => {
-    button.setAttribute('data-original-title', button.getAttribute('title'));
+    const originalTitle = button.getAttribute('title');
+    const originalAlt = button.getAttribute('alt');
+    const content = button.textContent;
+    
+    button.setAttribute('data-original-title', originalTitle);
+    button.setAttribute('data-original-alt', originalAlt);
+    button.setAttribute('data-original-content', content);
+    
+    // Inicializar con el símbolo correcto según la configuración
+    if (iconMappings[content]) {
+      const correctSymbol = currentSettings.useEmojis ? 
+        iconMappings[content].emoji : 
+        iconMappings[content].symbol;
+      
+      button.textContent = correctSymbol;
+      button.setAttribute('alt', correctSymbol);
+    }
   });
   
   // Enfocar el primer botón al abrir el popup
   if (buttons.length > 0) {
     buttons[0].focus();
-  }
-  
-  // Crear indicador de estado si no existe
-  if (!document.getElementById('status-indicator')) {
-    const indicator = document.createElement('div');
-    indicator.id = 'status-indicator';
-    indicator.style.cssText = 'position: absolute; top: 2px; left: 0; right: 0; text-align: center; font-size: 10px; padding: 2px;';
-    document.body.appendChild(indicator);
-    updateUI();
   }
 });
